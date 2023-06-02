@@ -14,6 +14,15 @@ func main() {
 	// Define the file path and name for the PowerShell script
 	scriptPath := "C:\\Path\\To\\Script.ps1"
 
+	// Create the parent directory if it doesn't exist
+	parentDir := filepath.Dir(scriptPath)
+	fmt.Printf("parentDir: %s", parentDir)
+	err := os.MkdirAll(parentDir, os.ModePerm)
+	if err != nil {
+		fmt.Println("Error creating parent directory:", err)
+		return
+	}
+
 	// Create the script file
 	file, err := os.Create(scriptPath)
 	if err != nil {
@@ -60,7 +69,7 @@ func getStartupFolder(username string) string {
 
 // createShortcut creates a shortcut to the specified file in the specified folder.
 func createShortcut(filePath, folderPath string) error {
-	shortcutPath := filepath.Join(folderPath, "Script.lnk")
+	shortcutPath := filepath.Join(folderPath, "Script.ps1.lnk")
 
 	shortcut, err := os.Create(shortcutPath)
 	if err != nil {
